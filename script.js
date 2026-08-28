@@ -1,9 +1,11 @@
 // Point this at your deployed Cloudflare Worker URL.
 const WORKER_URL = "https://the-700-pages-petition.lilyseabrooke00.workers.dev";
 
-// Flavor-text goal for the progress bar — purely decorative, the real count
-// always comes from the Worker.
-const GOAL = 10000;
+// Milestones for the progress bar's label + goal — purely decorative, the
+// real count always comes from the Worker. Editable without touching code:
+// see milestones.csv.
+const MILESTONES_URL = "milestones.csv";
+const FALLBACK_MILESTONES = [{ label: "Jacqueline will probably listen at", goal: 10 }];
 
 // How many times *this browser* has clicked sign. Local-only flavor, not
 // sent anywhere — the petition explicitly doesn't care who's signing.
@@ -11,6 +13,7 @@ const MINE_KEY = "petition700.mine";
 
 const countEl = document.getElementById("count");
 const progressFillEl = document.getElementById("progress-fill");
+const goalLabelEl = document.getElementById("goal-label");
 const goalEl = document.getElementById("goal");
 const buttonEl = document.getElementById("sign-button");
 const statusEl = document.getElementById("status");
@@ -19,6 +22,40 @@ const badgeEl = document.getElementById("mine-badge");
 const mineLabelEl = document.getElementById("mine-label");
 
 const numberFormatter = new Intl.NumberFormat("en-US");
+
+let milestones = FALLBACK_MILESTONES;
+
+// Parses lines like: "LABEL TEXT", 10
+// Blank lines and lines starting with # are ignored.
+function parseMilestones(text) {
+  const rows = [];
+  for (const rawLine of text.split("\n")) {
+    const line = rawLine.trim();
+    if (!line || line.startsWith("#")) continue;
+    const match = line.match(/^"([^"]*)"\s*,\s*(\d+)\s*$/);
+    if (!match) continue;
+    rows.push({ label: match[1], goal: parseInt(match[2], 10) });
+  }
+  rows.sort((a, b) => a.goal - b.goal);
+  return rows;
+}
+
+async function loadMilestones() {
+  try {
+    const res = await fetch(MILESTONES_URL);
+    if (!res.ok) throw new Error(`Request failed: ${res.status}`);
+    const parsed = parseMilestones(await res.text());
+    if (parsed.length > 0) milestones = parsed;
+  } catch (err) {
+    console.error("Couldn't load milestones.csv, using fallback goal.", err);
+  }
+}
+
+// The active milestone is the first one not yet reached, or the last one
+// once the count has passed every goal listed.
+function currentMilestone(count) {
+  return milestones.find(m => count < m.goal) ?? milestones[milestones.length - 1];
+}
 
 function getMine() {
   try {
@@ -47,7 +84,11 @@ function renderMine(mine) {
 
 function renderCount(count) {
   countEl.textContent = numberFormatter.format(count);
-  const pct = Math.min(100, (count / GOAL) * 100);
+
+  const milestone = currentMilestone(count);
+  goalLabelEl.textContent = milestone.label;
+  goalEl.textContent = numberFormatter.format(milestone.goal);
+  const pct = Math.min(100, (count / milestone.goal) * 100);
   progressFillEl.style.width = `${pct.toFixed(2)}%`;
 }
 
@@ -62,7 +103,6 @@ function flourish() {
   countEl.classList.add("pop");
 }
 
-goalEl.textContent = numberFormatter.format(GOAL);
 renderMine(getMine());
 
 async function fetchCount() {
@@ -104,4 +144,9 @@ async function signPetition() {
 
 buttonEl.addEventListener("click", signPetition);
 
-fetchCount();
+async function init() {
+  await loadMilestones();
+  await fetchCount();
+}
+
+init();

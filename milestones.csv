@@ -1,0 +1,19 @@
+# Petition milestones — edit freely, no code changes needed.
+#
+# One milestone per line: "LABEL TEXT", goal
+# - LABEL TEXT is shown where the page currently says
+#   "JACQUELINE WILL PROBABLY LISTEN AT".
+# - goal is the signature count that label applies until.
+# - Lines must be in ascending order by goal.
+# - Once the real count passes the highest goal listed here, the page
+#   just keeps showing that last label/goal (the progress bar sits at 100%).
+# - Lines starting with # are ignored.
+
+"JACQUELINE WILL PROBABLY LISTEN AT", 10
+"JACQUELINE WILL ALMOST DEFINITELY LISTEN AT", 20
+"JACQUELINE WILL DEFINITELY LISTEN AT", 50
+"JACQUELINE WILL HAVE NO CHOICE BUT TO LISTEN AT", 100
+"THE SCHOOL BOARD WILL GET INVOLVED AT", 250
+"IT WOULD BE POETIC IF WE HIT EXACTLY", 700
+"THIS IS GETTING OUT OF HAND AT", 1000
+"THE STATE LEGISLATURE MIGHT NOTICE AT", 10000
