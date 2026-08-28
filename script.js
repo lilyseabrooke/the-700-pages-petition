@@ -1,6 +1,5 @@
 // Point this at your deployed Cloudflare Worker URL.
-// e.g. "https://petition-counter.yourname.workers.dev"
-const WORKER_URL = "https://petition-counter.YOUR_SUBDOMAIN.workers.dev";
+const WORKER_URL = "https://the-700-pages-petition.lilyseabrooke00.workers.dev";
 
 const counterEl = document.getElementById("counter");
 const buttonEl = document.getElementById("sign-button");
