@@ -1,0 +1,149 @@
+:root {
+  --paper: #faf6ec;
+  --ink: #2b2620;
+  --ink-soft: #58503f;
+  --accent: #a8342a;
+  --accent-dark: #7c2620;
+  --line: #d9cfb8;
+  --card: #fffdf7;
+  color-scheme: light;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--paper);
+  background-image:
+    radial-gradient(circle at 20% 10%, rgba(168, 52, 42, 0.04), transparent 40%),
+    radial-gradient(circle at 80% 90%, rgba(168, 52, 42, 0.04), transparent 40%);
+  color: var(--ink);
+  font-family: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, "Times New Roman", serif;
+  line-height: 1.55;
+}
+
+.page {
+  max-width: 700px;
+  margin: 0 auto;
+  padding: 3rem 1.5rem 4rem;
+}
+
+.masthead {
+  text-align: center;
+  border-bottom: 3px double var(--line);
+  padding-bottom: 2rem;
+  margin-bottom: 2.5rem;
+}
+
+.eyebrow {
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  font-size: 0.8rem;
+  color: var(--ink-soft);
+  margin: 0 0 1rem;
+}
+
+h1 {
+  font-size: clamp(1.8rem, 5vw, 2.6rem);
+  margin: 0 0 1.2rem;
+  line-height: 1.25;
+}
+
+.highlight {
+  color: var(--accent);
+}
+
+.subhead {
+  color: var(--ink-soft);
+  font-size: 1.05rem;
+  max-width: 46ch;
+  margin: 0 auto;
+}
+
+.counter-card {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(43, 38, 32, 0.06);
+  padding: 2.5rem 1.5rem;
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.counter-label {
+  margin: 0 0 0.5rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-size: 0.8rem;
+  color: var(--ink-soft);
+}
+
+.counter {
+  font-size: clamp(3rem, 12vw, 5rem);
+  font-weight: 700;
+  margin: 0 0 1.5rem;
+  font-variant-numeric: tabular-nums;
+  color: var(--accent-dark);
+}
+
+.sign-button {
+  font-family: inherit;
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: #fff;
+  background: var(--accent);
+  border: none;
+  padding: 0.9rem 2rem;
+  border-radius: 999px;
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(124, 38, 32, 0.35);
+  transition: transform 0.08s ease, box-shadow 0.08s ease, background 0.15s ease;
+}
+
+.sign-button:hover {
+  background: var(--accent-dark);
+  box-shadow: 0 6px 18px rgba(124, 38, 32, 0.4);
+}
+
+.sign-button:active {
+  transform: translateY(1px) scale(0.98);
+}
+
+.sign-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.status {
+  min-height: 1.4em;
+  margin: 1rem 0 0;
+  font-size: 0.9rem;
+  color: var(--ink-soft);
+}
+
+.whereas h2 {
+  font-size: 1.1rem;
+  margin: 1.5rem 0 0.5rem;
+}
+
+.whereas ul {
+  margin: 0 0 0.5rem;
+  padding-left: 1.3rem;
+}
+
+.whereas li {
+  margin-bottom: 0.4rem;
+  color: var(--ink-soft);
+}
+
+.fine-print {
+  margin-top: 3rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--line);
+  font-size: 0.8rem;
+  color: var(--ink-soft);
+  text-align: center;
+}
