@@ -20,6 +20,9 @@ const statusEl = document.getElementById("status");
 const sealEl = document.getElementById("seal");
 const badgeEl = document.getElementById("mine-badge");
 const mineLabelEl = document.getElementById("mine-label");
+const challengeButtonEl = document.getElementById("challenge-button");
+const challengeDialogEl = document.getElementById("challenge-dialog");
+const challengeDialogOkEl = document.getElementById("challenge-dialog-ok");
 
 const numberFormatter = new Intl.NumberFormat("en-US");
 
@@ -143,6 +146,15 @@ async function signPetition() {
 }
 
 buttonEl.addEventListener("click", signPetition);
+
+// The petition cannot, in fact, be challenged. Esc doesn't get you out of
+// it either — only agreeing (and signing) does.
+challengeButtonEl.addEventListener("click", () => challengeDialogEl.showModal());
+challengeDialogEl.addEventListener("cancel", event => event.preventDefault());
+challengeDialogOkEl.addEventListener("click", () => {
+  challengeDialogEl.close();
+  signPetition();
+});
 
 async function init() {
   await loadMilestones();

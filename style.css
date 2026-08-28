@@ -100,6 +100,8 @@
   --radius-sm: 4px;
   --radius-lg: 10px;
   --radius-pill: 999px;
+  --control-sm: 32px;
+  --control-md: 40px;
   --control-lg: 48px;
 
   /* Elevation & gilding */
@@ -417,6 +419,71 @@ a:hover {
   opacity: 0.45;
   cursor: not-allowed;
   transform: none;
+}
+
+.btn--secondary {
+  --_bg: transparent;
+  --_fg: var(--gold-300);
+  --_bd: var(--border-strong);
+  box-shadow: none;
+}
+.btn--secondary:hover:not(:disabled) {
+  --_bg: var(--brand-subtle);
+  --_fg: var(--gold-200);
+  --_bd: var(--gold-500);
+  box-shadow: none;
+}
+
+.btn--sm {
+  height: var(--control-sm);
+  padding: 0 var(--space-4);
+  font-size: var(--text-xs);
+}
+
+.btn__icon {
+  display: inline-flex;
+  width: 1.1em;
+  height: 1.1em;
+}
+.btn__icon svg {
+  width: 100%;
+  height: 100%;
+}
+
+.challenge-button {
+  margin-top: -8px;
+}
+
+/* ---- Challenge dialog ------------------------------------------------------ */
+
+.dialog {
+  max-width: 400px;
+  margin: auto;
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-lg);
+  background: var(--surface-card);
+  color: var(--text-body);
+  box-shadow: var(--inset-hi), var(--shadow-xl, var(--shadow-lg));
+  padding: var(--space-6);
+}
+/* Only lay out the contents once the dialog is actually open — otherwise
+   this display override would beat the browser's own display:none default
+   for a closed <dialog> and leave it visible at all times. */
+.dialog[open] {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-5);
+  text-align: center;
+}
+.dialog::backdrop {
+  background: rgba(8, 9, 13, 0.78);
+}
+.dialog__text {
+  margin: 0;
+  font-size: var(--text-lg);
+  line-height: var(--leading-relaxed);
+  color: var(--text-strong);
 }
 
 .fine-print {
