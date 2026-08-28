@@ -3,8 +3,8 @@ const WORKER_URL = "https://the-700-pages-petition.lilyseabrooke00.workers.dev";
 
 // Milestones for the progress bar's label + goal — purely decorative, the
 // real count always comes from the Worker. Editable without touching code:
-// see milestones.csv.
-const MILESTONES_URL = "milestones.csv";
+// see milestones.txt.
+const MILESTONES_URL = "milestones.txt";
 const FALLBACK_MILESTONES = [{ label: "Jacqueline will probably listen at", goal: 10 }];
 
 // How many times *this browser* has clicked sign. Local-only flavor, not
@@ -47,7 +47,7 @@ async function loadMilestones() {
     const parsed = parseMilestones(await res.text());
     if (parsed.length > 0) milestones = parsed;
   } catch (err) {
-    console.error("Couldn't load milestones.csv, using fallback goal.", err);
+    console.error("Couldn't load milestones.txt, using fallback goal.", err);
   }
 }
 
