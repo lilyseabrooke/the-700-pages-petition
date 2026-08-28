@@ -136,7 +136,7 @@ async function signPetition() {
     setMine(mine);
     renderMine(mine);
 
-    statusEl.textContent = "Thank you for your meaningless but heartfelt support.";
+    statusEl.textContent = "Thank you for supporting our objectively correct cause.";
   } catch (err) {
     statusEl.textContent = "Something went wrong. Your click has been lost to the void.";
     console.error(err);
