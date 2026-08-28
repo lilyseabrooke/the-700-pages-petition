@@ -5,7 +5,8 @@ counter goes up. That's the whole website. No names, emails, or personal
 information are ever collected — just a single shared number.
 
 - `index.html`, `style.css`, `script.js` — the static site, meant to be hosted
-  on GitHub Pages.
+  on GitHub Pages. Styled as a "Starfall Academy" petition per the design
+  handoff from Claude Design; `assets/` holds its fonts and crest artwork.
 - `wrangler.toml`, `src/index.js` — a Cloudflare Worker that stores and
   serves the universal signature count via Cloudflare KV. It lives at the
   repo root (rather than a subfolder) so Cloudflare's Git-connected Worker
