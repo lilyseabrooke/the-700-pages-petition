@@ -6,8 +6,11 @@ information are ever collected — just a single shared number.
 
 - `index.html`, `style.css`, `script.js` — the static site, meant to be hosted
   on GitHub Pages.
-- `worker/` — a Cloudflare Worker that stores and serves the universal
-  signature count via Cloudflare KV.
+- `wrangler.toml`, `src/index.js` — a Cloudflare Worker that stores and
+  serves the universal signature count via Cloudflare KV. It lives at the
+  repo root (rather than a subfolder) so Cloudflare's Git-connected Worker
+  Builds can find it with no custom build/deploy command or root-directory
+  override needed.
 
 ## How it works
 
@@ -22,39 +25,34 @@ visits the site.
 
 ## Deploying the Worker (backend)
 
-1. Install [wrangler](https://developers.cloudflare.com/workers/wrangler/)
-   and log in:
-   ```bash
-   cd worker
-   npm install
-   npx wrangler login
-   ```
-2. Create a KV namespace for the counter:
-   ```bash
-   npx wrangler kv namespace create COUNTER
-   ```
-   Copy the `id` it prints into `worker/wrangler.toml` under `[[kv_namespaces]]`.
-3. (Optional but recommended) In `worker/src/index.js`, set `ALLOWED_ORIGIN`
-   to your GitHub Pages URL (e.g. `https://yourusername.github.io`) instead
-   of `*`, so only your site can call the counter.
-4. Deploy:
-   ```bash
-   npx wrangler deploy
-   ```
-   This prints your Worker's URL, e.g.
-   `https://petition-counter.yourname.workers.dev`.
+This repo is connected to Cloudflare Workers Builds: every push to `main`
+auto-deploys the Worker using `wrangler.toml` at the repo root as the
+config-as-code source of truth (including the `COUNTER` KV binding — don't
+add or edit bindings by hand in the dashboard, since they get reconciled
+away on the next deploy in favor of whatever's in this file).
+
+To deploy manually instead (e.g. from your own machine):
+```bash
+npm install -g wrangler   # or use npx wrangler ...
+npx wrangler login
+npx wrangler deploy
+```
+
+(Optional but recommended) In `src/index.js`, set `ALLOWED_ORIGIN` to your
+GitHub Pages URL (e.g. `https://yourusername.github.io`) instead of `*`, so
+only your site can call the counter.
 
 ## Deploying the site (frontend)
 
-1. In `script.js`, set `WORKER_URL` to the Worker URL from the step above.
-2. Push this repo to GitHub.
-3. In the repo settings, enable **GitHub Pages**, serving from the `main`
+1. In `script.js`, `WORKER_URL` should already point at your deployed
+   Worker's `.workers.dev` URL.
+2. In the repo settings, enable **GitHub Pages**, serving from the `main`
    branch (root directory).
-4. Visit your GitHub Pages URL — the petition is live.
+3. Visit your GitHub Pages URL — the petition is live.
 
 ## Local development
 
 You can open `index.html` directly in a browser, but you'll need the Worker
-running (`npx wrangler dev` inside `worker/`) and `WORKER_URL` pointed at
-the local dev URL it prints (e.g. `http://127.0.0.1:8787`) to see the
-counter work end to end.
+running locally (`npx wrangler dev` from the repo root) and `WORKER_URL` in
+`script.js` pointed at the local dev URL it prints (e.g.
+`http://127.0.0.1:8787`) to see the counter work end to end.
